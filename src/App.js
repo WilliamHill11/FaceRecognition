@@ -5,58 +5,57 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Rank from './components/Rank/Rank';
-import ParticlesBg from 'particles-bg'
+import ParticlesBg from 'particles-bg';
 import Clarifai from 'clarifai';
 
-console.log(Clarifai)
 const app = new Clarifai.App({
-  apiKey: 'ce4498a5c23b44889a977c42c9fd13a5'
- });
+  apiKey: 'ce4498a5c23b44889a977c42c9fd13a5',
+});
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       input: '',
-      imageUrl: ''
-    }
+      imageUrl: '',
+    };
   }
 
   onInputChange = (event) => {
-      this.setState({input: event.target.value});
-  }
+    this.setState({ input: event.target.value });
+  };
 
   onButtonSubmit = () => {
-    this.setState({imageUrl: this.state.input});
     app.models
       .predict(
         {
-          id: 'face-detection',
-          name: 'face-detection',
-          version: '6dc7e46bc9124c5c8824be4822abe105',
-          type: 'visual-detector',
-        }, this.state.input)
-      .then(
-        function(response) {
-          console.log(response.outputs[0].data.regions[0].region_info_bounding_box);
+          id: 'a403429f2ddf4b49b307e318f00e528b',
+          version: '34ce21a40cc24b6b96ffee54aabff139',
         },
-        function(err) {
-          //d asda
-        }
-    );
-  }
+        this.state.input
+      )
+      .then((response) =>
+        console.log(
+          response.outputs[0].data.regions[0].region_info.bounding_box
+        )
+      )
+      .catch((err) => {
+        console.log('Clarifai Error:', err);
+      });
+  };
 
   render() {
-    return(
+    return (
       <div className="App">
         <ParticlesBg type="cobweb" bg={true} />
         <Navigation />
         <Logo />
         <Rank />
-        <ImageLinkForm 
+        <ImageLinkForm
           onInputChange={this.onInputChange}
-          onButtonSubmit={this.onButtonSubmit}/>
-        <FaceRecognition imageUrl={this.state.imageUrl}/>
+          onButtonSubmit={this.onButtonSubmit}
+        />
+        <FaceRecognition imageUrl={this.state.imageUrl} />
       </div>
     );
   }
