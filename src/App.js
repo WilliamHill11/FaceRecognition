@@ -10,10 +10,9 @@ import Rank from './components/Rank/Rank';
 import ParticlesBg from 'particles-bg';
 import Clarifai from 'clarifai';
 
-console.log(Clarifai)
 const app = new Clarifai.App({
-  apiKey: 'ce4498a5c23b44889a977c42c9fd13a5'
- });
+  apiKey: 'ce4498a5c23b44889a977c42c9fd13a5',
+});
 
 class App extends Component {
   constructor() {
@@ -49,7 +48,6 @@ class App extends Component {
   }
 
   onButtonSubmit = () => {
-    this.setState({imageUrl: this.state.input});
     app.models
       .predict(
         {
